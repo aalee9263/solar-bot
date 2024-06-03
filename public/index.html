@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Quotation Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Solar Quotation Generator</h1>
+    <form id="quotationForm">
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type"><br>
+        <label for="installation">Installation:</label>
+        <input type="text" id="installation" name="installation"><br>
+        <label for="capacity">Capacity:</label>
+        <input type="text" id="capacity" name="capacity"><br>
+        <label for="priceCategory">Price Category:</label>
+        <input type="text" id="priceCategory" name="priceCategory"><br>
+        <button type="submit">Generate Quotation</button>
+    </form>
+
+    <div id="downloadLink"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#quotationForm').submit(function(event) {
+                event.preventDefault();
+                const formData = $(this).serialize();
+
+                $.post('/generate-pdf', formData, function(response) {
+                    $('#downloadLink').html(`<a href="/pdf/${response.pdfFileName}" download>Download Quotation PDF</a>`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
